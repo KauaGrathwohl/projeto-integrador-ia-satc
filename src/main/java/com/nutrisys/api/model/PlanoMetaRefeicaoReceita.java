@@ -18,31 +18,30 @@ public class PlanoMetaRefeicaoReceita {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ENTIDADES", nullable = false)
+    @JoinColumn(name = "ID_ENTIDADES")
     private Entidade entidade;
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIOS", nullable = false)
+    @JoinColumn(name = "ID_USUARIOS")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "ID_PLANOS_METAS_REFEICOES", nullable = false)
+    @JoinColumn(name = "ID_PLANOS_METAS_REFEICOES")
     private PlanoMetaRefeicao planoMetaRefeicao;
 
     @ManyToOne
-    @JoinColumn(name = "ID_RECEITAS", nullable = false)
+    @JoinColumn(name = "ID_RECEITAS")
     private Receita receita;
 
-    @Column(name = "DESCRICAO", length = 1000, nullable = false)
+    @Column(name = "DESCRICAO")
     private String descricao;
 
-    @Column(name = "QTD_CALORIS_RECEITA", nullable = false)
+    @Column(name = "QTD_CALORIS_RECEITA")
     private Integer qtdCaloriasReceita;
 
-    @Column(name = "QTD_PROTEINAS_RECEITA", nullable = false)
+    @Column(name = "QTD_PROTEINAS_RECEITA")
     private Integer qtdProteinasReceita;
 
-    @Column(name = "QTD_CARBOIDRATOS_RECEITA", nullable = false)
+    @Column(name = "QTD_CARBOIDRATOS_RECEITA")
     private Integer qtdCarboidratosReceita;
-
 }

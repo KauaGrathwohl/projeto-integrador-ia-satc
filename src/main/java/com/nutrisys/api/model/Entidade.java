@@ -25,12 +25,12 @@ public class Entidade {
     @ManyToMany(mappedBy = "entidades")
     private Set<Usuario> usuarios = new HashSet<>();
 
-    @Column(name = "NOME_CONSULTORIO", length = 100, nullable = false)
+    @Column(name = "NOME_CONSULTORIO")
     private String nomeConsultorio;
 
-    @Column(name = "CNPJ", length = 100, nullable = false)
+    @Column(name = "CNPJ")
     private String cnpj;
 
-    @Column(name = "LOCALIZACAO", length = 150, nullable = false)
+    @Column(name = "LOCALIZACAO")
     private String localizacao;
 }

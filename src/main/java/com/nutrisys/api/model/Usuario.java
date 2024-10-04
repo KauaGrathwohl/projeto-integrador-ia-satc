@@ -1,5 +1,6 @@
 package com.nutrisys.api.model;
 
+import com.nutrisys.api.enums.StatusUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,20 +39,20 @@ public class Usuario {
     @Column(name = "SENHA")
     private String senha;
 
-    @Column(name = "NOME", length = 100)
+    @Column(name = "NOME")
     private String nome;
 
     @Column(name = "DT_NASCIMENTO")
     private LocalDate dtNascimento;
 
-    @Column(name = "CRN", length = 10)
+    @Column(name = "CRN")
     private String crn;
 
-    @Column(name = "CPF_CNPJ", length = 14)
+    @Column(name = "CPF_CNPJ")
     private String cpfCnpj;
 
-    @Column(name = "STATUS", length = 1)
-    private String status;
+    @Column(name = "STATUS")
+    private StatusUsuario status = StatusUsuario.ATIVO;
 
     @Column(name = "DH_CRIACAO")
     private LocalDateTime dhCriacao;

@@ -1,5 +1,6 @@
 package com.nutrisys.api.model;
 
+import com.nutrisys.api.enums.StatusPaciente;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,40 +23,40 @@ public class Paciente {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ENTIDADES", nullable = false)
+    @JoinColumn(name = "ID_ENTIDADES")
     private Entidade entidade;
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIOS", nullable = false)
+    @JoinColumn(name = "ID_USUARIOS")
     private Usuario usuario;
 
-    @Column(name = "NOME", length = 100, nullable = false)
+    @Column(name = "NOME", length = 100)
     private String nome;
 
-    @Column(name = "CPF", length = 11, nullable = false)
+    @Column(name = "CPF", length = 11)
     private String cpf;
 
-    @Column(name = "DT_NASCIMENTO", nullable = false)
+    @Column(name = "DT_NASCIMENTO")
     private LocalDate dtNascimento;
 
-    @Column(name = "STATUS", length = 1, nullable = false)
-    private String status;
+    @Column(name = "STATUS")
+    private StatusPaciente status;
 
-    @Column(name = "PESO", precision = 3, scale = 2, nullable = false)
+    @Column(name = "PESO")
     private BigDecimal peso;
 
-    @Column(name = "ALTURA", precision = 3, scale = 2, nullable = false)
+    @Column(name = "ALTURA")
     private BigDecimal altura;
 
-    @Column(name = "OBJETIVO", length = 500, nullable = false)
+    @Column(name = "OBJETIVO")
     private String objetivo;
 
-    @Column(name = "RESTRICOES", length = 300, nullable = false)
+    @Column(name = "RESTRICOES")
     private String restricoes;
 
-    @Column(name = "PREFERENCIAS", length = 200, nullable = false)
+    @Column(name = "PREFERENCIAS")
     private String preferencias;
 
-    @Column(name = "DH_CRIACAO", nullable = false)
+    @Column(name = "DH_CRIACAO")
     private LocalDateTime dhCriacao;
 }

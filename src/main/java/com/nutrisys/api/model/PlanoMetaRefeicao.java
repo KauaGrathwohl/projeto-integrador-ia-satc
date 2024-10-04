@@ -1,5 +1,6 @@
 package com.nutrisys.api.model;
 
+import com.nutrisys.api.enums.TipoRefeicao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,27 +21,26 @@ public class PlanoMetaRefeicao {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ENTIDADES", nullable = false)
+    @JoinColumn(name = "ID_ENTIDADES")
     private Entidade entidade;
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIOS", nullable = false)
+    @JoinColumn(name = "ID_USUARIOS")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "ID_PLANOS_METAS", nullable = false)
+    @JoinColumn(name = "ID_PLANOS_METAS")
     private PlanoMeta planoMeta;
 
-    @Column(name = "QTD_CALORIAS_REFEICAO", nullable = false)
+    @Column(name = "QTD_CALORIAS_REFEICAO")
     private Integer qtdCaloriasRefeicao;
 
-    @Column(name = "QTD_PROTEINAS_REFEICAO", nullable = false)
+    @Column(name = "QTD_PROTEINAS_REFEICAO")
     private Integer qtdProteinasRefeicao;
 
-    @Column(name = "QTD_CARBOIDRATOS_REFEICAO", nullable = false)
+    @Column(name = "QTD_CARBOIDRATOS_REFEICAO")
     private Integer qtdCarboidratosRefeicao;
 
-    @Column(name = "TIPO_REFEICAO", length = 1, nullable = false)
-    private String tipoRefeicao;
-
+    @Column(name = "TIPO_REFEICAO")
+    private TipoRefeicao tipoRefeicao;
 }

@@ -1,5 +1,6 @@
 package com.nutrisys.api.model;
 
+import com.nutrisys.api.enums.TemaSistema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,5 @@ public class ConfiguracaoGeral {
     private Usuario usuario;
 
     @Column(name = "TEMA_SISTEMA", nullable = false)
-    private String temaSistema;
+    private TemaSistema temaSistema;
 }

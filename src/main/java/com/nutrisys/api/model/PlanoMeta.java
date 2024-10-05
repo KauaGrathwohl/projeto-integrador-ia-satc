@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -35,13 +36,16 @@ public class PlanoMeta {
     private Paciente paciente;
 
     @Column(name = "QTD_DIARIA_CALORIAS")
-    private Integer qtdDiariaCalorias;
+    private BigDecimal qtdDiariaCalorias;
 
     @Column(name = "QTD_DIARIA_PROTEINAS")
-    private Integer qtdDiariaProteinas;
+    private BigDecimal qtdDiariaProteinas;
 
     @Column(name = "QTD_DIARIA_CARBOIDRATOS")
-    private Integer qtdDiariaCarboidratos;
+    private BigDecimal qtdDiariaCarboidratos;
+
+    @Column(name = "QTD_DIARIA_GORDURA")
+    private BigDecimal qtdDiariaGordura;
 
     @Column(name = "DT_INICIO_META")
     private LocalDate dtInicioMeta;

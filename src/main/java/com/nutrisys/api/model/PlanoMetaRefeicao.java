@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,13 +35,16 @@ public class PlanoMetaRefeicao {
     private PlanoMeta planoMeta;
 
     @Column(name = "QTD_CALORIAS_REFEICAO")
-    private Integer qtdCaloriasRefeicao;
+    private BigDecimal qtdCaloriasRefeicao;
 
     @Column(name = "QTD_PROTEINAS_REFEICAO")
-    private Integer qtdProteinasRefeicao;
+    private BigDecimal qtdProteinasRefeicao;
 
     @Column(name = "QTD_CARBOIDRATOS_REFEICAO")
-    private Integer qtdCarboidratosRefeicao;
+    private BigDecimal qtdCarboidratosRefeicao;
+
+    @Column(name = "QTD_GORDURA_REFEICAO")
+    private BigDecimal qtdGorduraRefeicao;
 
     @Column(name = "TIPO_REFEICAO")
     private TipoRefeicao tipoRefeicao;

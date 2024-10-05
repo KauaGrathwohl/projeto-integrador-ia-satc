@@ -30,10 +30,10 @@ public class Paciente {
     @JoinColumn(name = "ID_USUARIOS")
     private Usuario usuario;
 
-    @Column(name = "NOME", length = 100)
+    @Column(name = "NOME")
     private String nome;
 
-    @Column(name = "CPF", length = 11)
+    @Column(name = "CPF")
     private String cpf;
 
     @Column(name = "DT_NASCIMENTO")

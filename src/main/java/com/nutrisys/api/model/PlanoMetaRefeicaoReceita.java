@@ -1,9 +1,12 @@
 package com.nutrisys.api.model;
 
+import com.nutrisys.api.enums.TipoRefeicao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Builder
 @NoArgsConstructor
@@ -37,11 +40,20 @@ public class PlanoMetaRefeicaoReceita {
     private String descricao;
 
     @Column(name = "QTD_CALORIS_RECEITA")
-    private Integer qtdCaloriasReceita;
+    private BigDecimal qtdCaloriasReceita;
 
     @Column(name = "QTD_PROTEINAS_RECEITA")
-    private Integer qtdProteinasReceita;
+    private BigDecimal qtdProteinasReceita;
 
     @Column(name = "QTD_CARBOIDRATOS_RECEITA")
-    private Integer qtdCarboidratosReceita;
+    private BigDecimal qtdCarboidratosReceita;
+
+    @Column(name = "QTD_GORDURA_RECEITA")
+    private BigDecimal qtdGorduraReceita;
+
+    @Column(name = "QTD_GRAMAS_RECEITA")
+    private BigDecimal qtdGramasReceita;
+
+    @Column(name = "TIPO_REFEICAO")
+    private TipoRefeicao tipoRefeicao;
 }

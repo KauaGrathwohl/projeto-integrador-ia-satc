@@ -1,11 +1,13 @@
 package com.nutrisys.api.model;
 
+import com.nutrisys.api.enums.TipoRefeicao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Builder
@@ -22,32 +24,35 @@ public class Receita {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ENTIDADES", nullable = false)
+    @JoinColumn(name = "ID_ENTIDADES")
     private Entidade entidade;
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIOS", nullable = false)
+    @JoinColumn(name = "ID_USUARIOS")
     private Usuario usuario;
 
-    @Column(name = "NOME", length = 50, nullable = false)
+    @Column(name = "NOME")
     private String nome;
 
-    @Column(name = "CALORIAS", nullable = false)
-    private Integer calorias;
+    @Column(name = "GRAMAS")
+    private BigDecimal gramas;
 
-    @Column(name = "PROTEINAS", nullable = false)
-    private Integer proteinas;
+    @Column(name = "CALORIAS")
+    private BigDecimal calorias;
 
-    @Column(name = "CARBOIDRATOS", nullable = false)
-    private Integer carboidratos;
+    @Column(name = "PROTEINAS")
+    private BigDecimal proteinas;
 
-    @Column(name = "TIPO_REFEICAO", length = 1, nullable = false)
-    private String tipoRefeicao;
+    @Column(name = "CARBOIDRATOS")
+    private BigDecimal carboidratos;
 
-    @Column(name = "DESCRICAO", length = 1000, nullable = false)
+    @Column(name = "TIPO_REFEICAO")
+    private TipoRefeicao tipoRefeicao;
+
+    @Column(name = "DESCRICAO")
     private String descricao;
 
-    @Column(name = "DH_CRIACAO", nullable = false)
+    @Column(name = "DH_CRIACAO")
     private LocalDate dhCriacao;
 
 }

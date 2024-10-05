@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -23,32 +24,35 @@ public class PlanoMeta {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ENTIDADES", nullable = false)
+    @JoinColumn(name = "ID_ENTIDADES")
     private Entidade entidade;
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIOS", nullable = false)
+    @JoinColumn(name = "ID_USUARIOS")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "ID_PACIENTES", nullable = false)
+    @JoinColumn(name = "ID_PACIENTES")
     private Paciente paciente;
 
-    @Column(name = "QTD_DIARIA_CALORIAS", nullable = false)
-    private Integer qtdDiariaCalorias;
+    @Column(name = "QTD_DIARIA_CALORIAS")
+    private BigDecimal qtdDiariaCalorias;
 
-    @Column(name = "QTD_DIARIA_PROTEINAS", nullable = false)
-    private Integer qtdDiariaProteinas;
+    @Column(name = "QTD_DIARIA_PROTEINAS")
+    private BigDecimal qtdDiariaProteinas;
 
-    @Column(name = "QTD_DIARIA_CARBOIDRATOS", nullable = false)
-    private Integer qtdDiariaCarboidratos;
+    @Column(name = "QTD_DIARIA_CARBOIDRATOS")
+    private BigDecimal qtdDiariaCarboidratos;
 
-    @Column(name = "DT_INICIO_META", nullable = false)
+    @Column(name = "QTD_DIARIA_GORDURA")
+    private BigDecimal qtdDiariaGordura;
+
+    @Column(name = "DT_INICIO_META")
     private LocalDate dtInicioMeta;
 
     @Column(name = "DT_FINAL_META")
     private LocalDate dtFinalMeta;
 
-    @Column(name = "DH_CRIACAO", nullable = false)
+    @Column(name = "DH_CRIACAO")
     private LocalDateTime dhCriacao;
 }

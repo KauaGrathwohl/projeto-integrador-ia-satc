@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Entity
+@SequenceGenerator(name = "SEQ_CONFIGURACOES_GERAIS", sequenceName = "SEQ_CONFIGURACOES_GERAIS", allocationSize = 1)
 @Table(name = "CONFIGURACOES_GERAIS")
 public class ConfiguracaoGeral {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CONFIGURACOES_GERAIS")
     @Column(name = "ID")
     private Long id;
 

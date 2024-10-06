@@ -12,11 +12,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@SequenceGenerator(name = "SEQ_PLANOS_METAS_REFEICOES_RECEITAS", sequenceName = "SEQ_PLANOS_METAS_REFEICOES_RECEITAS", allocationSize = 1)
 @Table(name = "PLANOS_METAS_REFEICOES_RECEITAS")
 public class PlanoMetaRefeicaoReceita {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PLANOS_METAS_REFEICOES_RECEITAS")
     @Column(name = "ID")
     private Long id;
 

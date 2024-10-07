@@ -15,11 +15,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Entity
+@SequenceGenerator(name = "SEQ_PLANOS_METAS", sequenceName = "SEQ_PLANOS_METAS", allocationSize = 1)
 @Table(name = "PLANOS_METAS")
 public class PlanoMeta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PLANOS_METAS")
     @Column(name = "ID")
     private Long id;
 

@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -66,6 +65,16 @@ public class AuthService {
             throw new RuntimeException("Entidade informada não existe");
         }
 
+        Optional<Usuario> usuarioCpfRepetido = usuarioRepository.findByCpfCnpjAndEntidadesId(createUserDto.cpfCnpj(), entidade.get().getId());
+        Optional<Usuario> usuarioEmailRepetido = usuarioRepository.findByUsuarioAndEntidadesId(createUserDto.usuario(), entidade.get().getId());
+        if (usuarioCpfRepetido.isPresent()) {
+            throw new RuntimeException("Entidade já possui um usuário com cpf/cnpj informado");
+        }
+
+        if (usuarioEmailRepetido.isPresent()) {
+            throw new RuntimeException("Entidade já possui um usuário com e-mail informado");
+        }
+
         Usuario newUser = Usuario.builder()
                 .usuario(createUserDto.usuario())
                 .entidades(Set.of(entidade.get()))
@@ -79,7 +88,6 @@ public class AuthService {
                 .roles(List.of(Role.builder().roleName(createUserDto.role()).build()))
                 .build();
 
-        // Salva o novo usuário no banco de dados
         usuarioRepository.save(newUser);
     }
 }

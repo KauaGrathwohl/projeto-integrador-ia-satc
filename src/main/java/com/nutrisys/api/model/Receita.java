@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
@@ -47,6 +48,9 @@ public class Receita {
     @Column(name = "CARBOIDRATOS")
     private BigDecimal carboidratos;
 
+    @Column(name = "GORDURA")
+    private BigDecimal gordura;
+
     @Column(name = "TIPO_REFEICAO")
     private TipoRefeicao tipoRefeicao;
 
@@ -54,6 +58,6 @@ public class Receita {
     private String descricao;
 
     @Column(name = "DH_CRIACAO")
-    private LocalDate dhCriacao;
+    private LocalDateTime dhCriacao;
 
 }

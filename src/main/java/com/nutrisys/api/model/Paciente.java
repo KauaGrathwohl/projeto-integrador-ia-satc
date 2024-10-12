@@ -2,9 +2,7 @@ package com.nutrisys.api.model;
 
 import com.nutrisys.api.enums.StatusPaciente;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Setter
+@Getter
 @SequenceGenerator(name = "SEQ_PACIENTES", sequenceName = "SEQ_PACIENTES", allocationSize = 1)
 @Table(name = "PACIENTES")
 public class Paciente {

@@ -4,12 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.nutrisys.api.model.Entidade;
 import com.nutrisys.api.security.userdetailimp.UserDetailsImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Service
 public class JwtTokenService {
@@ -21,11 +23,14 @@ public class JwtTokenService {
         try {
             // Define o algoritmo HMAC SHA256 para criar a assinatura do token passando a chave secreta definida
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            Optional<Entidade> entidadeOptional = user.getUsuario().getEntidades().stream().findFirst();
+            Long idEntidade = entidadeOptional.map(Entidade::getId).orElse(null);
             return JWT.create()
                     .withIssuer(ISSUER) // Define o emissor do token
                     .withIssuedAt(creationDate()) // Define a data de emissão do token
                     .withExpiresAt(expirationDate()) // Define a data de expiração do token
                     .withSubject(user.getUsername()) // Define o assunto do token (neste caso, o nome de usuário)
+                    .withClaim("entidade", idEntidade)
                     .sign(algorithm); // Assina o token usando o algoritmo especificado
         } catch (JWTCreationException exception){
             throw new JWTCreationException("Erro ao gerar token.", exception);
@@ -43,6 +48,20 @@ public class JwtTokenService {
                     .getSubject(); // Obtém o assunto (neste caso, o nome de usuário) do token
         } catch (JWTVerificationException exception){
             throw new JWTVerificationException("Token inválido ou expirado.");
+        }
+    }
+
+    public Long getEntidadeFromToken(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            return JWT.require(algorithm)
+                    .withIssuer(ISSUER)
+                    .build()
+                    .verify(token)
+                    .getClaim("entidade")
+                    .asLong();
+        } catch (JWTVerificationException exception){
+            throw new JWTVerificationException("Token inválido ou expirado");
         }
     }
 

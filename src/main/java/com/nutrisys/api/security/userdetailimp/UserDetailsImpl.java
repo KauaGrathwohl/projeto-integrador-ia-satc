@@ -11,9 +11,21 @@ import java.util.stream.Collectors;
 public class UserDetailsImpl implements UserDetails {
 
     private Usuario usuario;
+    private Long entidade;
+    private String jwt;
 
     public UserDetailsImpl(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public UserDetailsImpl(Usuario usuario, Long entidade, String jwt) {
+        this.usuario = usuario;
+        this.entidade = entidade;
+        this.jwt = jwt;
+    }
+
+    public Usuario getUsuario() {
+        return this.usuario;
     }
 
     @Override

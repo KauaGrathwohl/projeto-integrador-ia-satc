@@ -36,7 +36,9 @@ public class SecurityConfiguration {
     public static final String [] ROLE_ADMIN = {};
 
     // Endpoints que só podem ser acessador por usuários com permissão de nutricionista
-    public static final String [] ROLE_NUTRICIONISTA = {};
+    public static final String [] ROLE_NUTRICIONISTA = {
+            "/paciente"
+    };
 
     // Endpoints que só podem ser acessador por usuários com permissão de paciente
     public static final String [] ROLE_PACIENTE = {};

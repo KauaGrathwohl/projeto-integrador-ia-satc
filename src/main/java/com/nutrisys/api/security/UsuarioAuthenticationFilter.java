@@ -3,14 +3,14 @@ package com.nutrisys.api.security;
 import com.nutrisys.api.configuration.SecurityConfiguration;
 import com.nutrisys.api.model.Usuario;
 import com.nutrisys.api.repository.UsuarioRepository;
+import com.nutrisys.api.security.customtoken.CustomAuthenticationToken;
 import com.nutrisys.api.security.userdetailimp.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -34,13 +34,17 @@ public class UsuarioAuthenticationFilter extends OncePerRequestFilter {
             String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
             if (token != null) {
                 String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de usuário) do token
+                Long entidade = jwtTokenService.getEntidadeFromToken(token);
                 Usuario usuario = usuarioRepository.findByUsuario(subject).get(); // Busca o usuário pelo email (que é o assunto do token)
-                UserDetailsImpl userDetails = new UserDetailsImpl(usuario); // Cria um UserDetails com o usuário encontrado
+                UserDetailsImpl userDetails = new UserDetailsImpl(usuario, entidade, token); // Cria um UserDetails com o usuário encontrado
 
                 // Cria um objeto de autenticação do Spring Security
-                Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
-
+                CustomAuthenticationToken authentication =
+                        new CustomAuthenticationToken(userDetails.getUsername(),
+                                entidade,
+                                token,
+                                usuario.getId(),
+                                userDetails.getAuthorities());
                 // Define o objeto de autenticação no contexto de segurança do Spring Security
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {

@@ -2,7 +2,6 @@ package com.nutrisys.api.configuration;
 
 import com.nutrisys.api.security.UsuarioAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,7 +36,8 @@ public class SecurityConfiguration {
 
     // Endpoints que só podem ser acessador por usuários com permissão de nutricionista
     public static final String [] ROLE_NUTRICIONISTA = {
-            "/paciente"
+            "/paciente",
+            "/receita"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de paciente

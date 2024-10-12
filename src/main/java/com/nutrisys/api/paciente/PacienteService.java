@@ -33,7 +33,7 @@ public class PacienteService {
     private UsuarioRepository usuarioRepository;
 
     public CreatedPacienteDto createPaciente(CreatePacienteDto createPacienteDto) {
-        Paciente pacienteCreated = pacienteRepository.save(createUser(createPacienteDto));
+        Paciente pacienteCreated = pacienteRepository.save(createEntity(createPacienteDto));
         return new CreatedPacienteDto(pacienteCreated.getId(),
                 pacienteCreated.getNome(),
                 pacienteCreated.getCpf(),
@@ -46,7 +46,7 @@ public class PacienteService {
                 pacienteCreated.getDhCriacao());
     }
 
-    private Paciente createUser(CreatePacienteDto createPacienteDto) {
+    private Paciente createEntity(CreatePacienteDto createPacienteDto) {
         Entidade entidade = entidadeRepository.findById(authenticationFacade.getAuthentication().getEntidade()).get();
         Usuario usuario = usuarioRepository.findById(authenticationFacade.getAuthentication().getIdUsuario()).get();
         return Paciente.builder()

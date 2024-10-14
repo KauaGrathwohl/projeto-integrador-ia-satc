@@ -15,5 +15,4 @@ public record CreatedPacienteDto(
         String restricoes,
         String preferencias,
         LocalDateTime dhCriacao
-) {
-}
+) {}

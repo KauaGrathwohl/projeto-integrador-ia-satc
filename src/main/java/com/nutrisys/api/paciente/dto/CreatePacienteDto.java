@@ -12,5 +12,4 @@ public record CreatePacienteDto(
         String objetivo,
         String restricoes,
         String preferencias
-) {
-}
+) {}

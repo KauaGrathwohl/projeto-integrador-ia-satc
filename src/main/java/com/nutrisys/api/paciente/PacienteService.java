@@ -6,6 +6,7 @@ import com.nutrisys.api.model.Paciente;
 import com.nutrisys.api.model.Usuario;
 import com.nutrisys.api.paciente.dto.CreatePacienteDto;
 import com.nutrisys.api.paciente.dto.CreatedPacienteDto;
+import com.nutrisys.api.paciente.dto.DetailPacienteDto;
 import com.nutrisys.api.paciente.dto.ListPacienteDto;
 import com.nutrisys.api.repository.EntidadeRepository;
 import com.nutrisys.api.repository.PacienteRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PacienteService {
@@ -68,5 +70,27 @@ public class PacienteService {
         Long entidade = authenticationFacade.getAuthentication().getEntidade();
         Long usuario = authenticationFacade.getAuthentication().getIdUsuario();
         return pacienteRepository.findByEntidadeAndUsuario(entidade, usuario);
+    }
+
+    public DetailPacienteDto getDetailPaciente(Long idPaciente) {
+        Optional<Paciente> pacienteOptional = pacienteRepository.findById(idPaciente);
+        if (pacienteOptional.isEmpty()) {
+            throw new RuntimeException("Paciente não encontrado");
+        }
+        return getPacienteDto(pacienteOptional.get());
+    }
+
+    private DetailPacienteDto getPacienteDto(Paciente paciente) {
+        return new DetailPacienteDto(paciente.getId(),
+                paciente.getNome(),
+                paciente.getCpf(),
+                paciente.getDtNascimento(),
+                paciente.getStatus(),
+                paciente.getPeso(),
+                paciente.getAltura(),
+                paciente.getObjetivo(),
+                paciente.getRestricoes(),
+                paciente.getPreferencias(),
+                paciente.getDhCriacao());
     }
 }

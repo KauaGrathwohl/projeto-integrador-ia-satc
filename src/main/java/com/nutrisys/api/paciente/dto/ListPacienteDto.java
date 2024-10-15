@@ -8,5 +8,4 @@ public record ListPacienteDto(
         String objetivo,
         BigDecimal peso,
         BigDecimal altura
-) {
-}
+) {}

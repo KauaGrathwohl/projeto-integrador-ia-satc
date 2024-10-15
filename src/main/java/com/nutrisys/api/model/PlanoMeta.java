@@ -36,6 +36,9 @@ public class PlanoMeta {
     @JoinColumn(name = "ID_PACIENTES")
     private Paciente paciente;
 
+    @Column(name = "NOME_PLANO")
+    private String nomePlano;
+
     @Column(name = "QTD_DIARIA_CALORIAS")
     private BigDecimal qtdDiariaCalorias;
 

@@ -1,5 +1,7 @@
 package com.nutrisys.api.planometa;
 
+import com.nutrisys.api.exception.BadRequestException;
+import com.nutrisys.api.exception.ResourceNotFoundException;
 import com.nutrisys.api.planometa.dto.CreatePlanoMetaDto;
 import com.nutrisys.api.planometa.dto.CreatedPlanoMetaDto;
 import com.nutrisys.api.planometa.dto.ListPlanoMetaDto;
@@ -17,11 +19,19 @@ public class PlanoMetaController {
 
     @PostMapping(value = "/{idPaciente}")
     public CreatedPlanoMetaDto createPlanoMeta(@RequestBody CreatePlanoMetaDto createPlanoMetaDto, @PathVariable("idPaciente") Long idPaciente) {
-        return planoMetaService.createPlanoMeta(createPlanoMetaDto, idPaciente);
+        try {
+            return planoMetaService.createPlanoMeta(createPlanoMetaDto, idPaciente);
+        } catch (Exception e) {
+            throw new BadRequestException("Erro ao criar plano meta: " + e.getMessage());
+        }
     }
 
     @GetMapping
     public List<ListPlanoMetaDto> listPlanosMeta() {
-        return planoMetaService.listPlanosMeta();
+        try {
+            return planoMetaService.listPlanosMeta();
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Erro ao listar planos meta: " + e.getMessage());
+        }
     }
 }

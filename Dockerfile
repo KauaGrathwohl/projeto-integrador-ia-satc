@@ -1,6 +1,6 @@
 FROM openjdk:17-alpine AS build
 WORKDIR /app
-ł
+
 RUN apk add --no-cache curl
 
 RUN curl -o mvnw https://raw.githubusercontent.com/takari/maven-wrapper/master/mvnw \

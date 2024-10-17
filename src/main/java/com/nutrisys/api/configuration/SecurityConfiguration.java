@@ -27,7 +27,6 @@ public class SecurityConfiguration {
             "/auth" //url que usaremos para criar um usuário
     };
 
-
     // Endpoints que requerem autenticação para serem acessados
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {};
 

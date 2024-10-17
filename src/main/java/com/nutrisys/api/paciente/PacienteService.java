@@ -93,26 +93,4 @@ public class PacienteService {
                 paciente.getPreferencias(),
                 paciente.getDhCriacao());
     }
-
-    public DetailPacienteDto getDetailPaciente(Long idPaciente) {
-        Optional<Paciente> pacienteOptional = pacienteRepository.findById(idPaciente);
-        if (pacienteOptional.isEmpty()) {
-            throw new RuntimeException("Paciente não encontrado");
-        }
-        return getPacienteDto(pacienteOptional.get());
-    }
-
-    private DetailPacienteDto getPacienteDto(Paciente paciente) {
-        return new DetailPacienteDto(paciente.getId(),
-                paciente.getNome(),
-                paciente.getCpf(),
-                paciente.getDtNascimento(),
-                paciente.getStatus(),
-                paciente.getPeso(),
-                paciente.getAltura(),
-                paciente.getObjetivo(),
-                paciente.getRestricoes(),
-                paciente.getPreferencias(),
-                paciente.getDhCriacao());
-    }
 }

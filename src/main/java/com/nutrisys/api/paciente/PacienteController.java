@@ -1,12 +1,12 @@
 package com.nutrisys.api.paciente;
 
+import com.nutrisys.api.exception.ResourceNotFoundException;
 import com.nutrisys.api.paciente.dto.CreatePacienteDto;
 import com.nutrisys.api.paciente.dto.CreatedPacienteDto;
 import com.nutrisys.api.paciente.dto.DetailPacienteDto;
 import com.nutrisys.api.paciente.dto.ListPacienteDto;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class PacienteController {
         try {
             return pacienteService.listPacienteDtos(filtro);
         } catch (Exception e) {
-            throw new ConfigDataResourceNotFoundException("Erro ao listar pacientes: " + e.getMessage());
+            throw new ResourceNotFoundException("Erro ao listar pacientes: " + e.getMessage());
         }
     }
 
@@ -41,7 +41,7 @@ public class PacienteController {
         try {
             return pacienteService.getDetailPaciente(idPaciente);
         } catch (Exception e) {
-            throw new ConfigDataResourceNotFoundException("Erro ao mostrar detalhes do paciente: " + e.getMessage());
+            throw new ResourceNotFoundException("Erro ao mostrar detalhes do paciente: " + e.getMessage());
         }
     }
 }

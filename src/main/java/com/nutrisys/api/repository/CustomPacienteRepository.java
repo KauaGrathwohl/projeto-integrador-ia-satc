@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface CustomPacienteRepository {
-    List<ListPacienteDto> findByEntidadeAndUsuario(Long entidade, Long usuario);
+    List<ListPacienteDto> findByEntidadeAndUsuarioAndNome(Long entidade, Long usuario, String nome);
 }

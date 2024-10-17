@@ -1,11 +1,11 @@
 package com.nutrisys.api.paciente;
 
-import com.nutrisys.api.exception.BadRequestException;
 import com.nutrisys.api.exception.ResourceNotFoundException;
 import com.nutrisys.api.paciente.dto.CreatePacienteDto;
 import com.nutrisys.api.paciente.dto.CreatedPacienteDto;
 import com.nutrisys.api.paciente.dto.DetailPacienteDto;
 import com.nutrisys.api.paciente.dto.ListPacienteDto;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ public class PacienteController {
     private PacienteService pacienteService;
 
     @PostMapping
-    public CreatedPacienteDto createPaciente(@RequestBody CreatePacienteDto createPacienteDto) {
+    public CreatedPacienteDto createPaciente(@RequestBody CreatePacienteDto createPacienteDto) throws BadRequestException {
         try {
             return pacienteService.createPaciente(createPacienteDto);
         } catch (Exception e) {
@@ -28,9 +28,9 @@ public class PacienteController {
     }
 
     @GetMapping
-    public List<ListPacienteDto> listPacientes() {
+    public List<ListPacienteDto> listPacientes(@RequestParam(value = "filtro") String filtro) {
         try {
-            return pacienteService.listPacienteDtos();
+            return pacienteService.listPacienteDtos(filtro);
         } catch (Exception e) {
             throw new ResourceNotFoundException("Erro ao listar pacientes: " + e.getMessage());
         }

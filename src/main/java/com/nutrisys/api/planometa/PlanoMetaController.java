@@ -1,7 +1,5 @@
 package com.nutrisys.api.planometa;
 
-import com.nutrisys.api.exception.BadRequestException;
-import com.nutrisys.api.exception.ResourceNotFoundException;
 import com.nutrisys.api.planometa.dto.CreatePlanoMetaDto;
 import com.nutrisys.api.planometa.dto.CreatedPlanoMetaDto;
 import com.nutrisys.api.planometa.dto.ListPlanoMetaDto;

@@ -69,7 +69,7 @@ public class PacienteService {
     public List<ListPacienteDto> listPacienteDtos() {
         Long entidade = authenticationFacade.getAuthentication().getEntidade();
         Long usuario = authenticationFacade.getAuthentication().getIdUsuario();
-        return pacienteRepository.findByEntidadeAndUsuarioAndNome(entidade, usuario);
+        return pacienteRepository.findByEntidadeAndUsuario(entidade, usuario);
     }
 
     public DetailPacienteDto getDetailPaciente(Long idPaciente) {

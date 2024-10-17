@@ -1,5 +1,7 @@
 package com.nutrisys.api.receita;
 
+import com.nutrisys.api.exception.BadRequestException;
+import com.nutrisys.api.exception.ResourceNotFoundException;
 import com.nutrisys.api.receita.dto.CreateReceitaDto;
 import com.nutrisys.api.receita.dto.CreatedReceitaDto;
 import com.nutrisys.api.receita.dto.ListReceitaDto;
@@ -17,11 +19,19 @@ public class ReceitaController {
 
     @PostMapping
     public CreatedReceitaDto createReceita(@RequestBody CreateReceitaDto createReceitaDto) {
-        return receitaService.createReceita(createReceitaDto);
+        try {
+            return receitaService.createReceita(createReceitaDto);
+        } catch (Exception e) {
+            throw new BadRequestException("Erro ao criar receita: " + e.getMessage());
+        }
     }
 
     @GetMapping
     public List<ListReceitaDto> listReceitas() {
-        return receitaService.listReceitaDtos();
+        try {
+            return receitaService.listReceitaDtos();
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Erro ao listar receita: " + e.getMessage());
+        }
     }
 }

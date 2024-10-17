@@ -4,7 +4,9 @@ import com.nutrisys.api.paciente.dto.CreatePacienteDto;
 import com.nutrisys.api.paciente.dto.CreatedPacienteDto;
 import com.nutrisys.api.paciente.dto.DetailPacienteDto;
 import com.nutrisys.api.paciente.dto.ListPacienteDto;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +19,29 @@ public class PacienteController {
     private PacienteService pacienteService;
 
     @PostMapping
-    public CreatedPacienteDto createPaciente(@RequestBody CreatePacienteDto createPacienteDto) {
-        return pacienteService.createPaciente(createPacienteDto);
+    public CreatedPacienteDto createPaciente(@RequestBody CreatePacienteDto createPacienteDto) throws BadRequestException {
+        try {
+            return pacienteService.createPaciente(createPacienteDto);
+        } catch (Exception e) {
+            throw new BadRequestException("Error ao criar paciente: " + e.getMessage());
+        }
     }
 
     @GetMapping
     public List<ListPacienteDto> listPacientes(@RequestParam(value = "filtro") String filtro) {
-        return pacienteService.listPacienteDtos(filtro);
+        try {
+            return pacienteService.listPacienteDtos(filtro);
+        } catch (Exception e) {
+            throw new ConfigDataResourceNotFoundException("Erro ao listar pacientes: " + e.getMessage());
+        }
     }
 
     @GetMapping("/detalhes/{idPaciente}")
     public DetailPacienteDto getDetailPaciente(@PathVariable("idPaciente") Long idPaciente) {
-        return pacienteService.getDetailPaciente(idPaciente);
+        try {
+            return pacienteService.getDetailPaciente(idPaciente);
+        } catch (Exception e) {
+            throw new ConfigDataResourceNotFoundException("Erro ao mostrar detalhes do paciente: " + e.getMessage());
+        }
     }
 }

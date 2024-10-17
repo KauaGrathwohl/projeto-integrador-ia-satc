@@ -17,11 +17,19 @@ public class PlanoMetaController {
 
     @PostMapping(value = "/{idPaciente}")
     public CreatedPlanoMetaDto createPlanoMeta(@RequestBody CreatePlanoMetaDto createPlanoMetaDto, @PathVariable("idPaciente") Long idPaciente) {
-        return planoMetaService.createPlanoMeta(createPlanoMetaDto, idPaciente);
+        try {
+            return planoMetaService.createPlanoMeta(createPlanoMetaDto, idPaciente);
+        } catch (Exception e) {
+            throw new BadRequestException("Erro ao criar plano meta: " + e.getMessage());
+        }
     }
 
     @GetMapping
     public List<ListPlanoMetaDto> listPlanosMeta() {
-        return planoMetaService.listPlanosMeta();
+        try {
+            return planoMetaService.listPlanosMeta();
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Erro ao listar planos meta: " + e.getMessage());
+        }
     }
 }

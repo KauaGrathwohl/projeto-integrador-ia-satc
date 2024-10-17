@@ -1,0 +1,35 @@
+services:
+  api:
+    image: api:develop
+    depends_on:
+      - db
+    networks:
+      - app-network
+    volumes:
+      - shared-sql:/app/resources/database-sql
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:12.20-alpine3.20
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=nutrisysdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - shared-sql:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+volumes:
+  pgdata:
+  shared-sql:
+
+networks:
+  app-network:
+    driver: bridge

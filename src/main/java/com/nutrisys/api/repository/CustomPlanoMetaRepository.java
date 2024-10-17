@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface CustomPlanoMetaRepository {
-    List<ListPlanoMetaDto> findByEntidadeAndUsuario(Long entidade, Long usuario);
+    List<ListPlanoMetaDto> findByEntidadeAndUsuarioAndPaciente(Long entidade, Long usuario, Long paciente);
 }

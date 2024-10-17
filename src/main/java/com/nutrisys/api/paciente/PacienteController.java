@@ -22,8 +22,8 @@ public class PacienteController {
     }
 
     @GetMapping
-    public List<ListPacienteDto> listPacientes() {
-        return pacienteService.listPacienteDtos();
+    public List<ListPacienteDto> listPacientes(@RequestParam(value = "filtro") String filtro) {
+        return pacienteService.listPacienteDtos(filtro);
     }
 
     @GetMapping("/detalhes/{idPaciente}")

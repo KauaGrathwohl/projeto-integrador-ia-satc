@@ -15,9 +15,9 @@ public class PlanoMetaRepositoryImpl implements CustomPlanoMetaRepository{
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<ListPlanoMetaDto> findByEntidadeAndUsuario(Long entidade, Long usuario) {
-        String sql = "SELECT * FROM planos_metas p WHERE p.id_entidades = ? AND p.id_usuarios = ?";
-        return jdbcTemplate.query(sql, new Object[]{entidade, usuario},
+    public List<ListPlanoMetaDto> findByEntidadeAndUsuarioAndPaciente(Long entidade, Long usuario, Long paciente) {
+        String sql = "SELECT * FROM planos_metas p WHERE p.id_entidades = ? AND p.id_usuarios = ? AND p.id_pacientes = ?";
+        return jdbcTemplate.query(sql, new Object[]{entidade, usuario, paciente},
                 (rs, rowNum) -> new ListPlanoMetaDto(
                         rs.getLong("id"),
                         rs.getString("nome_plano"),

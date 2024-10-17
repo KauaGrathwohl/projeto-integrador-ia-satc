@@ -74,9 +74,9 @@ public class PlanoMetaService {
                 .build();
     }
 
-    public List<ListPlanoMetaDto> listPlanosMeta() {
+    public List<ListPlanoMetaDto> listPlanosMeta(Long idPaciente) {
         Long entidade = authenticationFacade.getAuthentication().getEntidade();
         Long usuario = authenticationFacade.getAuthentication().getIdUsuario();
-        return planoMetaRepository.findByEntidadeAndUsuario(entidade, usuario);
+        return planoMetaRepository.findByEntidadeAndUsuarioAndPaciente(entidade, usuario, idPaciente);
     }
 }

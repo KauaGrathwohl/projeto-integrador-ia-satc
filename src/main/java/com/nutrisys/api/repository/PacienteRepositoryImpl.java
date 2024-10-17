@@ -14,8 +14,8 @@ public class PacienteRepositoryImpl implements CustomPacienteRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<ListPacienteDto> findByEntidadeAndUsuarioAndNome(Long entidade, Long usuario, String nome) {
-        String sql = "SELECT * FROM pacientes p WHERE p.id_entidades = ? AND p.id_usuarios = ? AND p.nome LIKE ?";
+    public List<ListPacienteDto> findByEntidadeAndUsuario(Long entidade, Long usuario) {
+        String sql = "SELECT * FROM pacientes p WHERE p.id_entidades = ? AND p.id_usuarios = ?";
         return jdbcTemplate.query(sql, new Object[]{entidade, usuario},
             (rs, rowNum) -> new ListPacienteDto(
                     rs.getLong("id"),

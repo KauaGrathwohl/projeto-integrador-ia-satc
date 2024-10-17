@@ -66,10 +66,10 @@ public class PacienteService {
                 .dhCriacao(LocalDateTime.now()).build();
     }
 
-    public List<ListPacienteDto> listPacienteDtos(String filtro) {
+    public List<ListPacienteDto> listPacienteDtos() {
         Long entidade = authenticationFacade.getAuthentication().getEntidade();
         Long usuario = authenticationFacade.getAuthentication().getIdUsuario();
-        return pacienteRepository.findByEntidadeAndUsuarioAndNome(entidade, usuario, filtro);
+        return pacienteRepository.findByEntidadeAndUsuario(entidade, usuario);
     }
 
     public DetailPacienteDto getDetailPaciente(Long idPaciente) {

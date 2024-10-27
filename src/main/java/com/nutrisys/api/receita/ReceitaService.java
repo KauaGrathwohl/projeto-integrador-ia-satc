@@ -63,9 +63,9 @@ public class ReceitaService {
                 .build();
     }
 
-    public List<ListReceitaDto> listReceitaDtos() {
+    public List<ListReceitaDto> listReceitaDtos(String filtro) {
         Long entidade = authenticationFacade.getAuthentication().getEntidade();
         Long usuario = authenticationFacade.getAuthentication().getIdUsuario();
-        return receitaRepository.findByEntidadeAndUsuario(entidade, usuario);
+        return receitaRepository.findByEntidadeAndUsuarioAndFiltro(entidade, usuario, filtro);
     }
 }

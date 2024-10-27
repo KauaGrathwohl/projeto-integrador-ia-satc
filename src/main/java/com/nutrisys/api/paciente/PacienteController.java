@@ -1,10 +1,7 @@
 package com.nutrisys.api.paciente;
 
 import com.nutrisys.api.exception.ResourceNotFoundException;
-import com.nutrisys.api.paciente.dto.CreatePacienteDto;
-import com.nutrisys.api.paciente.dto.CreatedPacienteDto;
-import com.nutrisys.api.paciente.dto.DetailPacienteDto;
-import com.nutrisys.api.paciente.dto.ListPacienteDto;
+import com.nutrisys.api.paciente.dto.*;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +21,16 @@ public class PacienteController {
             return pacienteService.createPaciente(createPacienteDto);
         } catch (Exception e) {
             throw new BadRequestException("Error ao criar paciente: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{idPaciente}")
+    public UpdatePacienteDto updatePaciente(@RequestBody UpdatePacienteDto updatePacienteDto,
+                                            @PathVariable("idPaciente") Long idPaciente) throws BadRequestException {
+        try {
+            return pacienteService.updatePaciente(idPaciente, updatePacienteDto);
+        } catch (Exception e) {
+            throw new BadRequestException("Error ao atualizar paciente: " + e.getMessage());
         }
     }
 

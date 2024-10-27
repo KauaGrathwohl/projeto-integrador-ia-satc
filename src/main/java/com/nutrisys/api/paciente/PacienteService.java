@@ -1,13 +1,11 @@
 package com.nutrisys.api.paciente;
 
 import com.nutrisys.api.enums.StatusPaciente;
+import com.nutrisys.api.exception.ResourceNotFoundException;
 import com.nutrisys.api.model.Entidade;
 import com.nutrisys.api.model.Paciente;
 import com.nutrisys.api.model.Usuario;
-import com.nutrisys.api.paciente.dto.CreatePacienteDto;
-import com.nutrisys.api.paciente.dto.CreatedPacienteDto;
-import com.nutrisys.api.paciente.dto.DetailPacienteDto;
-import com.nutrisys.api.paciente.dto.ListPacienteDto;
+import com.nutrisys.api.paciente.dto.*;
 import com.nutrisys.api.repository.EntidadeRepository;
 import com.nutrisys.api.repository.PacienteRepository;
 import com.nutrisys.api.repository.UsuarioRepository;
@@ -92,5 +90,33 @@ public class PacienteService {
                 paciente.getRestricoes(),
                 paciente.getPreferencias(),
                 paciente.getDhCriacao());
+    }
+
+    public UpdatePacienteDto updatePaciente(Long idPaciente, UpdatePacienteDto updatePacienteDto) {
+        Optional<Paciente> pacienteOptional = pacienteRepository.findById(idPaciente);
+        if (pacienteOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Paciente não encontrado");
+        }
+
+        Paciente paciente = pacienteOptional.get();
+        paciente.setNome(updatePacienteDto.nome());
+        paciente.setCpf(updatePacienteDto.cpf());
+        paciente.setDtNascimento(updatePacienteDto.dtNascimento());
+        paciente.setPeso(updatePacienteDto.peso());
+        paciente.setAltura(updatePacienteDto.altura());
+        paciente.setObjetivo(updatePacienteDto.objetivo());
+        paciente.setRestricoes(updatePacienteDto.restricoes());
+        paciente.setPreferencias(updatePacienteDto.preferencias());
+        Paciente savedPaciente = pacienteRepository.save(paciente);
+
+        return new UpdatePacienteDto(savedPaciente.getId(),
+                savedPaciente.getNome(),
+                savedPaciente.getCpf(),
+                savedPaciente.getDtNascimento(),
+                savedPaciente.getPeso(),
+                savedPaciente.getAltura(),
+                savedPaciente.getObjetivo(),
+                savedPaciente.getRestricoes(),
+                savedPaciente.getPreferencias());
     }
 }

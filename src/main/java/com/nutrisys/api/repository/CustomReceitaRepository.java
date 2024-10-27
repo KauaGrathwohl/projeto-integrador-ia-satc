@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface CustomReceitaRepository {
 
-    List<ListReceitaDto> findByEntidadeAndUsuario(Long entidade, Long usuario);
+    List<ListReceitaDto> findByEntidadeAndUsuarioAndFiltro(Long entidade, Long usuario, String filtro);
 
 }

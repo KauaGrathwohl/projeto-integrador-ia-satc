@@ -28,9 +28,9 @@ public class PacienteController {
     }
 
     @GetMapping
-    public List<ListPacienteDto> listPacientes() {
+    public List<ListPacienteDto> listPacientes(@RequestParam("filtro") String filtro) {
         try {
-            return pacienteService.listPacienteDtos();
+            return pacienteService.listPacienteDtos(filtro);
         } catch (Exception e) {
             throw new ResourceNotFoundException("Erro ao listar pacientes: " + e.getMessage());
         }

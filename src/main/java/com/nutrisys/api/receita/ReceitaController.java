@@ -27,9 +27,9 @@ public class ReceitaController {
     }
 
     @GetMapping
-    public List<ListReceitaDto> listReceitas() {
+    public List<ListReceitaDto> listReceitas(@RequestParam("filtro") String filtro) {
         try {
-            return receitaService.listReceitaDtos();
+            return receitaService.listReceitaDtos(filtro);
         } catch (Exception e) {
             throw new ResourceNotFoundException("Erro ao listar receita: " + e.getMessage());
         }

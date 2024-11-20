@@ -1,7 +1,7 @@
-FROM openjdk:17-alpine AS build
+FROM openjdk:17-slim AS build
 WORKDIR /app
 
-RUN apk add --no-cache curl
+RUN apt-get update && apt-get install -y curl
 
 RUN curl -o mvnw https://raw.githubusercontent.com/takari/maven-wrapper/master/mvnw \
     && chmod +x mvnw \
@@ -19,8 +19,8 @@ RUN ./mvnw dependency:go-offline
 COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
-FROM openjdk:17-alpine AS deploy
+FROM openjdk:17-slim AS deploy
 WORKDIR /app
-COPY --from=build /app/target/api.jar /app/api.jar 
+COPY --from=build /app/target/api.jar /app/api.jar
 COPY src/main/resources/database-sql /app/resources/database-sql
 ENTRYPOINT ["java", "-jar", "/app/api.jar"]

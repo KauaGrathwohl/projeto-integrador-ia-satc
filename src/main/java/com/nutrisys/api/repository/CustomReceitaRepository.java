@@ -10,4 +10,5 @@ public interface CustomReceitaRepository {
 
     List<ListReceitaDto> findByEntidadeAndUsuarioAndFiltro(Long entidade, Long usuario, String filtro);
 
+    Long countByEntidadeId(Long entidadeId);
 }

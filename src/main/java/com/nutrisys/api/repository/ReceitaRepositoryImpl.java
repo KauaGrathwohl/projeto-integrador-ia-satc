@@ -35,4 +35,10 @@ public class ReceitaRepositoryImpl implements CustomReceitaRepository {
                         rs.getBigDecimal("gordura")
                 ));
     }
+
+    @Override
+    public Long countByEntidadeId(Long entidadeId) {
+        String sql = "SELECT COUNT(*) FROM receitas WHERE id_entidades = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{entidadeId}, Long.class);
+    }
 }

@@ -51,4 +51,13 @@ public class PacienteController {
             throw new ResourceNotFoundException("Erro ao mostrar detalhes do paciente: " + e.getMessage());
         }
     }
+
+    @GetMapping("/quantidade")
+    public Long getQuantidadePacientes() {
+        try {
+            return pacienteService.getQuantidadePacientesPorEntidade();
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Erro ao contar pacientes: " + e.getMessage());
+        }
+    }
 }

@@ -34,4 +34,13 @@ public class ReceitaController {
             throw new ResourceNotFoundException("Erro ao listar receita: " + e.getMessage());
         }
     }
+
+    @GetMapping("/quantidade")
+    public Long getQuantidadeReceitas() {
+        try {
+            return receitaService.getQuantidadeReceitasPorEntidade();
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Erro ao contar receitas: " + e.getMessage());
+        }
+    }
 }

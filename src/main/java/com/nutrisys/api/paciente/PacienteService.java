@@ -119,4 +119,9 @@ public class PacienteService {
                 savedPaciente.getRestricoes(),
                 savedPaciente.getPreferencias());
     }
+
+    public Long getQuantidadePacientesPorEntidade() {
+        Long entidadeId = authenticationFacade.getAuthentication().getEntidade();
+        return pacienteRepository.countByEntidadeId(entidadeId);
+    }
 }

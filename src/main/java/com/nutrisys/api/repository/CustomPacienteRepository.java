@@ -8,4 +8,6 @@ import java.util.List;
 @Repository
 public interface CustomPacienteRepository {
     List<ListPacienteDto> findByEntidadeAndUsuarioAndFiltro(Long entidade, Long usuario, String filtro);
+
+    Long countByEntidadeId(Long entidadeId);
 }

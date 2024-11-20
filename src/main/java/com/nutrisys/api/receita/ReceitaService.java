@@ -68,4 +68,9 @@ public class ReceitaService {
         Long usuario = authenticationFacade.getAuthentication().getIdUsuario();
         return receitaRepository.findByEntidadeAndUsuarioAndFiltro(entidade, usuario, filtro);
     }
+
+    public Long getQuantidadeReceitasPorEntidade() {
+        Long entidade = authenticationFacade.getAuthentication().getEntidade();
+        return receitaRepository.countByEntidadeId(entidade);
+    }
 }

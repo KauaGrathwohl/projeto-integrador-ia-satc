@@ -34,4 +34,11 @@ public class PacienteRepositoryImpl implements CustomPacienteRepository {
                     rs.getBigDecimal("altura")
             ));
     }
+
+
+    @Override
+    public Long countByEntidadeId(Long entidadeId) {
+        String sql = "SELECT COUNT(*) FROM pacientes WHERE id_entidades = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{entidadeId}, Long.class);
+    }
 }

@@ -2,62 +2,58 @@ package com.nutrisys.api.model;
 
 import com.nutrisys.api.enums.TipoRefeicao;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Entity
-@SequenceGenerator(name = "SEQ_RECEITAS", sequenceName = "SEQ_RECEITAS", allocationSize = 1)
+@Builder
 @Table(name = "RECEITAS")
 public class Receita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RECEITAS")
-    @Column(name = "ID")
+    @SequenceGenerator(name = "SEQ_RECEITAS", sequenceName = "SEQ_RECEITAS", allocationSize = 1)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ENTIDADES")
+    @JoinColumn(name = "ID_ENTIDADES", nullable = false)
     private Entidade entidade;
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIOS")
+    @JoinColumn(name = "ID_USUARIOS", nullable = false)
     private Usuario usuario;
 
-    @Column(name = "NOME")
+    @Column(name = "NOME", nullable = false)
     private String nome;
 
-    @Column(name = "GRAMAS")
+    @Column(name = "GRAMAS", precision = 10, scale = 2)
     private BigDecimal gramas;
 
-    @Column(name = "CALORIAS")
+    @Column(name = "CALORIAS", precision = 10, scale = 2)
     private BigDecimal calorias;
 
-    @Column(name = "PROTEINAS")
+    @Column(name = "PROTEINAS", precision = 10, scale = 2)
     private BigDecimal proteinas;
 
-    @Column(name = "CARBOIDRATOS")
+    @Column(name = "CARBOIDRATOS", precision = 10, scale = 2)
     private BigDecimal carboidratos;
 
-    @Column(name = "GORDURA")
+    @Column(name = "GORDURA", precision = 10, scale = 2)
     private BigDecimal gordura;
 
-    @Column(name = "TIPO_REFEICAO")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TIPO_REFEICAO", nullable = false)
     private TipoRefeicao tipoRefeicao;
 
-    @Column(name = "DESCRICAO")
+    @Column(name = "DESCRICAO", length = 500)
     private String descricao;
 
-    @Column(name = "DH_CRIACAO")
+    @Column(name = "DH_CRIACAO", nullable = false)
     private LocalDateTime dhCriacao;
-
 }

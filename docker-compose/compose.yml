@@ -9,6 +9,8 @@ services:
       - shared-sql:/app/resources/database-sql
     ports:
       - "8080:8080"
+    profiles:
+      - manual-start
 
   db:
     image: postgres:12.20-alpine3.20

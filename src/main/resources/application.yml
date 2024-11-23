@@ -3,6 +3,6 @@ spring:
     name: api
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://db:5432/nutrisysdb
+    url: jdbc:postgresql://localhost:5432/nutrisysdb
     username: postgres
     password: postgres

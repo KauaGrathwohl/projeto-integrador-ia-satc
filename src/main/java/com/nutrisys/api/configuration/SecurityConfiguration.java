@@ -39,6 +39,7 @@ public class SecurityConfiguration {
             "/paciente/*",
             "/paciente/detalhes/*",
             "/receita",
+            "/receita/*",
             "/plano-meta",
             "/plano-meta/*"
     };

@@ -2,6 +2,8 @@ package com.nutrisys.api.receita;
 
 import com.nutrisys.api.exception.BadRequestException;
 import com.nutrisys.api.exception.ResourceNotFoundException;
+import com.nutrisys.api.receita.dto.CalculoReceitaDto;
+import com.nutrisys.api.receita.dto.RespostaCalculoReceitaDto;
 import com.nutrisys.api.receita.dto.CreateReceitaDto;
 import com.nutrisys.api.receita.dto.CreatedReceitaDto;
 import com.nutrisys.api.receita.dto.ListReceitaDto;
@@ -19,28 +21,21 @@ public class ReceitaController {
 
     @PostMapping
     public CreatedReceitaDto createReceita(@RequestBody CreateReceitaDto createReceitaDto) {
-        try {
-            return receitaService.createReceita(createReceitaDto);
-        } catch (Exception e) {
-            throw new BadRequestException("Erro ao criar receita: " + e.getMessage());
-        }
+        return receitaService.createReceita(createReceitaDto);
     }
 
     @GetMapping
     public List<ListReceitaDto> listReceitas(@RequestParam("filtro") String filtro) {
-        try {
-            return receitaService.listReceitaDtos(filtro);
-        } catch (Exception e) {
-            throw new ResourceNotFoundException("Erro ao listar receita: " + e.getMessage());
-        }
+        return receitaService.listReceitaDtos(filtro);
     }
 
     @GetMapping("/quantidade")
     public Long getQuantidadeReceitas() {
-        try {
-            return receitaService.getQuantidadeReceitasPorEntidade();
-        } catch (Exception e) {
-            throw new ResourceNotFoundException("Erro ao contar receitas: " + e.getMessage());
-        }
+        return receitaService.getQuantidadeReceitasPorEntidade();
+    }
+
+    @PostMapping("/calcular")
+    public RespostaCalculoReceitaDto calcularReceita(@RequestBody CalculoReceitaDto calculoReceitaDto) {
+        return receitaService.calcularReceita(calculoReceitaDto);
     }
 }

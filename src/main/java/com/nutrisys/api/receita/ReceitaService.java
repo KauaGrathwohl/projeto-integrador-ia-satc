@@ -14,10 +14,12 @@ import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.completion.chat.ChatMessageRole;
 import com.theokanning.openai.service.OpenAiService;
 import com.theokanning.openai.utils.TikTokensUtil;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -97,10 +99,25 @@ public class ReceitaService {
                     .messages(List.of(chatMessage))
                     .build();
             ChatMessage result = service.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage();
-            return objectMapper.readValue(result.getContent(), RespostaCalculoReceitaDto.class);
+            RespostaCalculoReceitaDto respostaCalculoReceitaDto = objectMapper.readValue(result.getContent().replaceAll("[^\\p{Print}]", ""), RespostaCalculoReceitaDto.class);
+            return respostaCalculoReceitaDto;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String sanitizeString(String input) {
+        if (input == null) {
+            return null;
+        }
+        // Remove caracteres não imprimíveis e espaços desnecessários
+        input = input.replaceAll("[^\\p{Print}]", "");
+        // Escapar caracteres JSON
+        input = StringEscapeUtils.escapeJson(input);
+        // Normalizar caracteres Unicode
+        input = Normalizer.normalize(input, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+        return input.trim(); // Remove espaços extras
     }
 
     private StringBuilder buildContent(CalculoReceitaDto calculoReceitaDto) {
@@ -109,14 +126,14 @@ public class ReceitaService {
         content.append("\n");
 
         if (calculoReceitaDto.gerarModoPreparo()) {
-            content.append("Forneça os seguintes dados no formato JSON onde os keys estão em camel case e sem pontuação: ")
-                    .append("macronutrientes (proteínas, gorduras, carboidratos, calorias), modo de preparo e gramas por porção ")
+            content.append("Forneça os seguintes dados na seguinte estrutura JSON: {\"macronutrientes\":{\"proteinas\":0.0,\"gorduras\":0.0,\"carboidratos\":0.0,\"calorias\":0.0},\"modoPreparo\":\"\",\"gramasPorPorcao\":0}\n")
+                    .append("macronutrientes (proteínas, gorduras, carboidratos, calorias), modo de preparo (modoPreparo) e gramas por porção (gramasPorPorcao)")
                     .append("com base nos ingredientes fornecidos.")
                     .append("\n")
                     .append("Ingredientes:")
                     .append("\n");
         } else {
-            content.append("Forneça os seguintes dados no formato JSON onde os keys estão em camel case e sem pontuação: ")
+            content.append("Forneça os seguintes dados na seguinte estrutura JSON: {\"macronutrientes\":{\"proteinas\":0.0,\"gorduras\":0.0,\"carboidratos\":0.0,\"calorias\":0.0}\n")
                     .append("macronutrientes (proteínas, gorduras, carboidratos, calorias) com base nos ingredientes, modo de preparo e gramas por porção fornecidos.")
                     .append("\n")
                     .append("Ingredientes:")

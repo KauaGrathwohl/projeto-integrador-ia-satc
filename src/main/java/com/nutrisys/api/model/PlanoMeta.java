@@ -59,7 +59,4 @@ public class PlanoMeta {
 
     @Column(name = "DH_CRIACAO")
     private LocalDateTime dhCriacao;
-
-    @Column(name = "DESCRICAO")
-    private LocalDateTime descricao;
 }

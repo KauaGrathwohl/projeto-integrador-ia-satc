@@ -110,14 +110,14 @@ public class PlanoMetaService {
 
     private String montarPayloadParaGPT(PlanoMeta planoMeta, List<Receita> receitasDisponiveis) {
         StringBuilder prompt = new StringBuilder("Você é um nutricionista que cria planos alimentares personalizados.\n");
-        prompt.append("Baseado no objetivo '")
-                .append(planoMeta.getDescricao())
-                .append("' e nos seguintes valores diários:\n");
-        prompt.append("Calorias: ").append(planoMeta.getQtdDiariaCalorias()).append(" kcal, ");
-        prompt.append("Proteínas: ").append(planoMeta.getQtdDiariaProteinas()).append(" g, ");
-        prompt.append("Carboidratos: ").append(planoMeta.getQtdDiariaCarboidratos()).append(" g, ");
-        prompt.append("Gordura: ").append(planoMeta.getQtdDiariaGordura()).append(" g.\n");
-        prompt.append("Crie 4 refeições (Café da manhã, Almoço, Café da tarde, Jantar), cada uma com 4 opções de receitas baseadas nas seguintes receitas disponíveis:\n");
+//        prompt.append("Baseado no objetivo '")
+//                .append(planoMeta.getDescricao())
+//                .append("' e nos seguintes valores diários:\n");
+//        prompt.append("Calorias: ").append(planoMeta.getQtdDiariaCalorias()).append(" kcal, ");
+//        prompt.append("Proteínas: ").append(planoMeta.getQtdDiariaProteinas()).append(" g, ");
+//        prompt.append("Carboidratos: ").append(planoMeta.getQtdDiariaCarboidratos()).append(" g, ");
+//        prompt.append("Gordura: ").append(planoMeta.getQtdDiariaGordura()).append(" g.\n");
+//        prompt.append("Crie 4 refeições (Café da manhã, Almoço, Café da tarde, Jantar), cada uma com 4 opções de receitas baseadas nas seguintes receitas disponíveis:\n");
 
         for (TipoRefeicao tipo : TipoRefeicao.values()) {
             prompt.append(tipo.getDescription()).append(":\n");
@@ -141,7 +141,7 @@ public class PlanoMetaService {
     private String chamarGPT(String payload) {
         try {
             OpenAiService service = new OpenAiService(gptSecret);
-            ChatMessage chatMessage = new ChatMessage(ChatMessageRole.USER.value(), payload);
+            ChatMessage chatMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), payload);
 
             ChatCompletionRequest request = ChatCompletionRequest.builder()
                     .model(TikTokensUtil.ModelEnum.GPT_3_5_TURBO.getName())

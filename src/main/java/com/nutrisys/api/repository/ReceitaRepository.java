@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReceitaRepository extends JpaRepository<Receita, Long> {
+public interface ReceitaRepository extends JpaRepository<Receita, Long>, CustomReceitaRepository {
 
-    List<Receita> findByTipoRefeicao(TipoRefeicao tipoRefeicao);
-
-    @Query("SELECT r FROM Receita r WHERE r.entidade.id = :entidadeId AND r.usuario.id = :usuarioId AND r.nome LIKE %:filtro%")
-    List<ListReceitaDto> findByEntidadeAndUsuarioAndFiltro(Long entidadeId, Long usuarioId, String filtro);
-
-    @Query("SELECT COUNT(r) FROM Receita r WHERE r.entidade.id = :entidadeId")
-    long countByEntidadeId(Long entidadeId);
+//    List<Receita> findByTipoRefeicao(TipoRefeicao tipoRefeicao);
+//
+//    @Query("SELECT r FROM Receita r WHERE r.entidade.id = :entidadeId AND r.usuario.id = :usuarioId AND r.nome LIKE %:filtro%")
+//    List<ListReceitaDto> findByEntidadeAndUsuarioAndFiltro(Long entidadeId, Long usuarioId, String filtro);
+//
+//    @Query("SELECT COUNT(r) FROM Receita r WHERE r.entidade.id = :entidadeId")
+//    long countByEntidadeId(Long entidadeId);
 }

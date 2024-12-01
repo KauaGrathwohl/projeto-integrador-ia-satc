@@ -122,16 +122,16 @@ public class PlanoMetaService {
         for (TipoRefeicao tipo : TipoRefeicao.values()) {
             prompt.append(tipo.getDescription()).append(":\n");
 
-            List<Receita> receitasFiltradas = receitaRepository.findByTipoRefeicao(tipo);
+//            List<Receita> receitasFiltradas = receitaRepository.findByTipoRefeicao(tipo);
 
-            for (Receita receita : receitasFiltradas) {
-                prompt.append("- Nome: ").append(receita.getNome())
-                        .append(", Calorias: ").append(receita.getCalorias())
-                        .append(", Proteínas: ").append(receita.getProteinas())
-                        .append(", Carboidratos: ").append(receita.getCarboidratos())
-                        .append(", Gordura: ").append(receita.getGordura())
-                        .append("\n");
-            }
+//            for (Receita receita : receitasFiltradas) {
+//                prompt.append("- Nome: ").append(receita.getNome())
+//                        .append(", Calorias: ").append(receita.getCalorias())
+//                        .append(", Proteínas: ").append(receita.getProteinas())
+//                        .append(", Carboidratos: ").append(receita.getCarboidratos())
+//                        .append(", Gordura: ").append(receita.getGordura())
+//                        .append("\n");
+//            }
         }
 
         prompt.append("Certifique-se de ajustar as porções para atender às metas de macros por refeição.");

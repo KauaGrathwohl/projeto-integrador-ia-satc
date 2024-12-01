@@ -1,7 +1,6 @@
 package com.nutrisys.api.planometa;
 
 import com.nutrisys.api.exception.BadRequestException;
-import com.nutrisys.api.exception.ResourceNotFoundException;
 import com.nutrisys.api.planometa.dto.CreatePlanoMetaDto;
 import com.nutrisys.api.planometa.dto.CreatedPlanoMetaDto;
 import com.nutrisys.api.planometa.dto.ListPlanoMetaDto;
@@ -17,7 +16,7 @@ public class PlanoMetaController {
     @Autowired
     private PlanoMetaService planoMetaService;
 
-    @PostMapping(value = "/{idPaciente}")
+    @PostMapping("/{idPaciente}")
     public CreatedPlanoMetaDto createPlanoMeta(@RequestBody CreatePlanoMetaDto createPlanoMetaDto, @PathVariable("idPaciente") Long idPaciente) {
         try {
             return planoMetaService.createPlanoMeta(createPlanoMetaDto, idPaciente);
@@ -26,12 +25,21 @@ public class PlanoMetaController {
         }
     }
 
-    @GetMapping(value = "/{idPaciente}")
+    @GetMapping("/{idPaciente}")
     public List<ListPlanoMetaDto> listPlanosMeta(@PathVariable("idPaciente") Long idPaciente) {
         try {
             return planoMetaService.listPlanosMeta(idPaciente);
         } catch (Exception e) {
-            throw new ResourceNotFoundException("Erro ao listar planos meta: " + e.getMessage());
+            throw new RuntimeException("Erro ao listar planos meta: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/{idPlano}/gerar")
+    public void gerarPlanoDetalhado(@PathVariable("idPlano") Long idPlano) {
+        try {
+            planoMetaService.gerarPlanoDetalhado(idPlano);
+        } catch (Exception e) {
+            throw new BadRequestException("Erro ao gerar plano detalhado: " + e.getMessage());
         }
     }
 }

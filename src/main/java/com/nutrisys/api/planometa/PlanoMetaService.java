@@ -2,11 +2,9 @@ package com.nutrisys.api.planometa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nutrisys.api.enums.TipoRefeicao;
 import com.nutrisys.api.model.*;
-import com.nutrisys.api.planometa.dto.CreatePlanoMetaDto;
-import com.nutrisys.api.planometa.dto.CreatedPlanoMetaDto;
-import com.nutrisys.api.planometa.dto.ListPlanoMetaDto;
-import com.nutrisys.api.planometa.dto.PlanoGeradoDto;
+import com.nutrisys.api.planometa.dto.*;
 import com.nutrisys.api.receita.dto.ListReceitaDto;
 import com.nutrisys.api.repository.*;
 import com.nutrisys.api.security.contextprovider.AuthenticationFacade;
@@ -15,11 +13,14 @@ import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.completion.chat.ChatMessageRole;
 import com.theokanning.openai.service.OpenAiService;
 import com.theokanning.openai.utils.TikTokensUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,6 +74,84 @@ public class PlanoMetaService {
                 planoMetaCreated.getQtdDiariaGordura(),
                 planoMetaCreated.getQtdDiariaProteinas(),
                 planoMetaCreated.getDhCriacao());
+    }
+
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    public UpdatePlanoMetaDto updatePlanoMeta(UpdatePlanoMetaDto updatePlanoMetaDto) {
+        PlanoMetaRefeicao cafeManha = createEntityPlanoMetaRefeicao(updatePlanoMetaDto.idPlano(), TipoRefeicao.CAFE_DA_MANHA);
+        PlanoMetaRefeicao almoco = createEntityPlanoMetaRefeicao(updatePlanoMetaDto.idPlano(), TipoRefeicao.ALMOCO);
+        PlanoMetaRefeicao cafeTarde = createEntityPlanoMetaRefeicao(updatePlanoMetaDto.idPlano(), TipoRefeicao.CAFE_DA_TARDE);
+        PlanoMetaRefeicao jantar = createEntityPlanoMetaRefeicao(updatePlanoMetaDto.idPlano(), TipoRefeicao.JANTAR);
+
+        PlanoMetaRefeicao cafeManhaSaved = planoMetaRefeicaoRepository.save(cafeManha);
+        PlanoMetaRefeicao almocoSaved = planoMetaRefeicaoRepository.save(almoco);
+        PlanoMetaRefeicao cafeTardeSaved = planoMetaRefeicaoRepository.save(cafeTarde);
+        PlanoMetaRefeicao jantarSaved = planoMetaRefeicaoRepository.save(jantar);
+
+        List<PlanoMetaRefeicaoReceita> cafeManhaList = new ArrayList<>();
+        updatePlanoMetaDto.planoGeradoDto().cafeDaManha().receitas().forEach(receitaDto -> {
+            Optional<Receita> receita = receitaRepository.findById(receitaDto.id());
+            cafeManhaList.add(createEntityPlanoMetaRefeicaoReceita(cafeManhaSaved, receita.get()));
+        });
+
+        List<PlanoMetaRefeicaoReceita> almocoList = new ArrayList<>();
+        updatePlanoMetaDto.planoGeradoDto().almoco().receitas().forEach(receitaDto -> {
+            Optional<Receita> receita = receitaRepository.findById(receitaDto.id());
+            almocoList.add(createEntityPlanoMetaRefeicaoReceita(almocoSaved, receita.get()));
+        });
+
+        List<PlanoMetaRefeicaoReceita> cafeTardeList = new ArrayList<>();
+        updatePlanoMetaDto.planoGeradoDto().cafeDaTarde().receitas().forEach(receitaDto -> {
+            Optional<Receita> receita = receitaRepository.findById(receitaDto.id());
+            cafeTardeList.add(createEntityPlanoMetaRefeicaoReceita(cafeTardeSaved, receita.get()));
+        });
+
+        List<PlanoMetaRefeicaoReceita> jantarList = new ArrayList<>();
+        updatePlanoMetaDto.planoGeradoDto().jantar().receitas().forEach(receitaDto -> {
+            Optional<Receita> receita = receitaRepository.findById(receitaDto.id());
+            jantarList.add(createEntityPlanoMetaRefeicaoReceita(jantarSaved, receita.get()));
+        });
+
+        planoMetaRefeicaoReceitaRepository.saveAll(cafeTardeList);
+        planoMetaRefeicaoReceitaRepository.saveAll(almocoList);
+        planoMetaRefeicaoReceitaRepository.saveAll(cafeTardeList);
+        planoMetaRefeicaoReceitaRepository.saveAll(jantarList);
+
+        return updatePlanoMetaDto;
+    }
+
+    private PlanoMetaRefeicaoReceita createEntityPlanoMetaRefeicaoReceita(PlanoMetaRefeicao planoMetaRefeicao, Receita receita) {
+        Entidade entidade = entidadeRepository.findById(authenticationFacade.getAuthentication().getEntidade()).get();
+        Usuario usuario = usuarioRepository.findById(authenticationFacade.getAuthentication().getIdUsuario()).get();
+        return PlanoMetaRefeicaoReceita.builder()
+                .entidade(entidade)
+                .usuario(usuario)
+                .planoMetaRefeicao(planoMetaRefeicao)
+                .receita(receita)
+                .descricao(receita.getDescricao())
+                .qtdCaloriasReceita(receita.getCalorias())
+                .qtdProteinasReceita(receita.getProteinas())
+                .qtdCarboidratosReceita(receita.getCarboidratos())
+                .qtdGorduraReceita(receita.getGordura())
+                .qtdGramasReceita(receita.getGramas())
+                .tipoRefeicao(receita.getTipoRefeicao())
+                .build();
+    }
+
+    private PlanoMetaRefeicao createEntityPlanoMetaRefeicao(Long idPlano, TipoRefeicao tipoRefeicao) {
+        Entidade entidade = entidadeRepository.findById(authenticationFacade.getAuthentication().getEntidade()).get();
+        Usuario usuario = usuarioRepository.findById(authenticationFacade.getAuthentication().getIdUsuario()).get();
+        PlanoMeta planoMeta = planoMetaRepository.findById(idPlano).get();
+        return PlanoMetaRefeicao.builder()
+                .entidade(entidade)
+                .usuario(usuario)
+                .planoMeta(planoMeta)
+                .qtdCaloriasRefeicao(new BigDecimal("0.0"))
+                .qtdProteinasRefeicao(new BigDecimal("0.0"))
+                .qtdCarboidratosRefeicao(new BigDecimal("0.0"))
+                .qtdGorduraRefeicao(new BigDecimal("0.0"))
+                .tipoRefeicao(tipoRefeicao)
+                .build();
     }
 
     public List<ListPlanoMetaDto> listPlanosMeta(Long idPaciente) {

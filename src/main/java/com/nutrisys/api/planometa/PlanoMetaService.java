@@ -112,7 +112,7 @@ public class PlanoMetaService {
             jantarList.add(createEntityPlanoMetaRefeicaoReceita(jantarSaved, receita.get()));
         });
 
-        planoMetaRefeicaoReceitaRepository.saveAll(cafeTardeList);
+        planoMetaRefeicaoReceitaRepository.saveAll(cafeManhaList);
         planoMetaRefeicaoReceitaRepository.saveAll(almocoList);
         planoMetaRefeicaoReceitaRepository.saveAll(cafeTardeList);
         planoMetaRefeicaoReceitaRepository.saveAll(jantarList);

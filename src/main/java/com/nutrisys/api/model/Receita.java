@@ -58,5 +58,4 @@ public class Receita {
 
     @Column(name = "DH_CRIACAO")
     private LocalDateTime dhCriacao;
-
 }

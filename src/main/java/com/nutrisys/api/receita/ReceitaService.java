@@ -91,15 +91,13 @@ public class ReceitaService {
         try {
             OpenAiService service = new OpenAiService(gptSecret);
             StringBuilder content = buildContent(calculoReceitaDto);
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setRole(ChatMessageRole.SYSTEM.value());
-            chatMessage.setContent(content.toString());
+            ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), content.toString());
             ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
                     .model(TikTokensUtil.ModelEnum.GPT_3_5_TURBO.getName())
-                    .messages(List.of(chatMessage))
+                    .messages(List.of(systemMessage))
                     .build();
             ChatMessage result = service.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage();
-            RespostaCalculoReceitaDto respostaCalculoReceitaDto = objectMapper.readValue(result.getContent().replaceAll("[^\\p{Print}]", ""), RespostaCalculoReceitaDto.class);
+            RespostaCalculoReceitaDto respostaCalculoReceitaDto = objectMapper.readValue(result.getContent(), RespostaCalculoReceitaDto.class);
             return respostaCalculoReceitaDto;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -121,23 +119,17 @@ public class ReceitaService {
     }
 
     private StringBuilder buildContent(CalculoReceitaDto calculoReceitaDto) {
-        String initialMessage = "Você é um nutricionista capaz de me recomendar receitas e calcular macros (Proteínas, Gordura, Carboidratos, Calorias e Gramas por porção) de uma dada receita ou da recomendada.";
-        StringBuilder content = new StringBuilder(initialMessage);
-        content.append("\n");
-
+        String initialContent = "Você é um nutricionista capaz de me recomendar receitas e calcular macros (Proteínas por porção, Gordura por porção, Carboidratos por porção, Calorias por porção e Gramas por porção) de uma dada receita ou da recomendada.\n";
+        StringBuilder content = new StringBuilder(initialContent);
         if (calculoReceitaDto.gerarModoPreparo()) {
-            content.append("Forneça os seguintes dados na seguinte estrutura JSON: {\"macronutrientes\":{\"proteinas\":0.0,\"gorduras\":0.0,\"carboidratos\":0.0,\"calorias\":0.0},\"modoPreparo\":\"\",\"gramasPorPorcao\":0}\n")
-                    .append("macronutrientes (proteínas, gorduras, carboidratos, calorias), modo de preparo (modoPreparo) e gramas por porção (gramasPorPorcao)")
-                    .append("com base nos ingredientes fornecidos.")
-                    .append("\n")
-                    .append("Ingredientes:")
-                    .append("\n");
+            content.append("Forneça os seguintes dados na seguinte estrutura JSON:\n")
+                    .append("{\"macronutrientes\":{\"proteinas\":0.0,\"gorduras\":0.0,\"carboidratos\":0.0,\"calorias\":0.0},\"modoPreparo\":\"\",\"gramasPorPorcao\":0}\n")
+                    .append("Calcule os macronutrientes (proteínas, gorduras, carboidratos, calorias), modo de preparo (modoPreparo) e gramas por porção (gramasPorPorcao) com base nos ingredientes fornecidos.\n")
+                    .append("Ingredientes:\n");
         } else {
             content.append("Forneça os seguintes dados na seguinte estrutura JSON: {\"macronutrientes\":{\"proteinas\":0.0,\"gorduras\":0.0,\"carboidratos\":0.0,\"calorias\":0.0}\n")
-                    .append("macronutrientes (proteínas, gorduras, carboidratos, calorias) com base nos ingredientes, modo de preparo e gramas por porção fornecidos.")
-                    .append("\n")
-                    .append("Ingredientes:")
-                    .append("\n");
+                    .append("macronutrientes (proteínas, gorduras, carboidratos, calorias) com base nos ingredientes, modo de preparo e gramas por porção fornecidos.\n")
+                    .append("Ingredientes:\n");
             content.append("Modo de preparo: ").append(calculoReceitaDto.modoPreparo()).append("\n");
             content.append("Gramas por porção: ").append(calculoReceitaDto.gramasPorPorcao()).append("\n");
         }

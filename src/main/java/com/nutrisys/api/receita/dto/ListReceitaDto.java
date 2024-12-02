@@ -8,6 +8,7 @@ public record ListReceitaDto(
         BigDecimal calorias,
         BigDecimal carboidratos,
         BigDecimal proteinas,
-        BigDecimal gordura
+        BigDecimal gordura,
+        Integer tipoRefeicao
 ) {
 }

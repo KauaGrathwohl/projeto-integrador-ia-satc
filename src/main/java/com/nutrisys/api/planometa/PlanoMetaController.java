@@ -4,6 +4,7 @@ import com.nutrisys.api.exception.BadRequestException;
 import com.nutrisys.api.planometa.dto.CreatePlanoMetaDto;
 import com.nutrisys.api.planometa.dto.CreatedPlanoMetaDto;
 import com.nutrisys.api.planometa.dto.ListPlanoMetaDto;
+import com.nutrisys.api.planometa.dto.PlanoGeradoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +36,9 @@ public class PlanoMetaController {
     }
 
     @PostMapping("/{idPlano}/gerar")
-    public void gerarPlanoDetalhado(@PathVariable("idPlano") Long idPlano) {
+    public PlanoGeradoDto gerarPlanoDetalhado(@PathVariable("idPlano") Long idPlano) {
         try {
-            planoMetaService.gerarPlanoDetalhado(idPlano);
+            return planoMetaService.gerarPlanoDetalhado(idPlano);
         } catch (Exception e) {
             throw new BadRequestException("Erro ao gerar plano detalhado: " + e.getMessage());
         }

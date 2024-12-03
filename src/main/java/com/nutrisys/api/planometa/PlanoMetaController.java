@@ -42,12 +42,30 @@ public class PlanoMetaController {
         }
     }
 
+    @GetMapping("/{id}/detalhes")
+    public FindPlanoMetaDto findPlanoMeta(@PathVariable("id") Long id) {
+        try {
+            return planoMetaService.findPlanoMeta(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar plano meta: " + e.getMessage());
+        }
+    }
+
     @PostMapping("/{idPlano}/gerar")
     public PlanoGeradoDto gerarPlanoDetalhado(@PathVariable("idPlano") Long idPlano) {
         try {
             return planoMetaService.gerarPlanoDetalhado(idPlano);
         } catch (Exception e) {
             throw new BadRequestException("Erro ao gerar plano detalhado: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/quantidade")
+    public Long getQuantidadePlanosMeta() {
+        try {
+            return planoMetaService.getQuantidadePlanosMetaPorEntidade();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao contar planos meta: " + e.getMessage());
         }
     }
 }

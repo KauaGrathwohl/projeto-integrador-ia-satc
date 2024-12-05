@@ -41,7 +41,7 @@ public class SecurityConfiguration {
             "/receita",
             "/receita/*",
             "/plano-meta",
-            "/plano-meta/*"
+            "/plano-meta/**"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de paciente

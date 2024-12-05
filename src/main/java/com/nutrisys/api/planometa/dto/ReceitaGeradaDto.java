@@ -1,14 +1,12 @@
-package com.nutrisys.api.receita.dto;
+package com.nutrisys.api.planometa.dto;
 
 import java.math.BigDecimal;
 
-public record ListReceitaDto(
+public record ReceitaGeradaDto (
         Long id,
         String nome,
         BigDecimal calorias,
         BigDecimal carboidratos,
-        BigDecimal proteinas,
         BigDecimal gordura,
-        Integer tipoRefeicao
-) {
-}
+        BigDecimal proteinas
+) {}

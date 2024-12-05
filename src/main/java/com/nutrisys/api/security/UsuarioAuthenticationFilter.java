@@ -10,7 +10,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -28,30 +27,42 @@ public class UsuarioAuthenticationFilter extends OncePerRequestFilter {
     private UsuarioRepository usuarioRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+        throws ServletException, IOException {
         // Verifica se o endpoint requer autenticação antes de processar a requisição
-        if (checkIfEndpointIsNotPublic(request)) {
-            String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
-            if (token != null) {
-                String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de usuário) do token
-                Long entidade = jwtTokenService.getEntidadeFromToken(token);
-                Usuario usuario = usuarioRepository.findByUsuario(subject).get(); // Busca o usuário pelo email (que é o assunto do token)
-                UserDetailsImpl userDetails = new UserDetailsImpl(usuario, entidade, token); // Cria um UserDetails com o usuário encontrado
+        try {
 
-                // Cria um objeto de autenticação do Spring Security
-                CustomAuthenticationToken authentication =
-                        new CustomAuthenticationToken(userDetails.getUsername(),
-                                entidade,
-                                token,
-                                usuario.getId(),
-                                userDetails.getAuthorities());
-                // Define o objeto de autenticação no contexto de segurança do Spring Security
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
-                throw new RuntimeException("O token está ausente.");
+            if (checkIfEndpointIsNotPublic(request)) {
+                String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
+                if (token != null) {
+                    String subject = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome
+                    // de usuário) do token
+                    Long entidade = jwtTokenService.getEntidadeFromToken(token);
+                    Usuario usuario = usuarioRepository.findByUsuario(subject).get(); // Busca o usuário pelo email (que
+                    // é o assunto do token)
+                    UserDetailsImpl userDetails = new UserDetailsImpl(usuario, entidade, token); // Cria um UserDetails
+                    // com o usuário
+                    // encontrado
+
+                    // Cria um objeto de autenticação do Spring Security
+                    CustomAuthenticationToken authentication = new CustomAuthenticationToken(userDetails.getUsername(),
+                        entidade,
+                        token,
+                        usuario.getId(),
+                        userDetails.getAuthorities());
+                    // Define o objeto de autenticação no contexto de segurança do Spring Security
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    throw new RuntimeException("O token está ausente.");
+                }
             }
+            filterChain.doFilter(request, response); // Continua o processamento da requisição
+        } catch (RuntimeException ex) {
+            // Configura a resposta com o status 401 e a mensagem de erro
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+            response.setContentType("application/json");
+            response.getWriter().write("{\"message\": \"" + ex.getMessage() + "\"}");
         }
-        filterChain.doFilter(request, response); // Continua o processamento da requisição
     }
 
     // Recupera o token do cabeçalho Authorization da requisição

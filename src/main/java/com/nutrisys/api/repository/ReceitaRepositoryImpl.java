@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class ReceitaRepositoryImpl implements CustomReceitaRepository {
@@ -20,7 +21,7 @@ public class ReceitaRepositoryImpl implements CustomReceitaRepository {
         List<Object> paramValues = new ArrayList<>();
         paramValues.add(entidade);
         paramValues.add(usuario);
-        if (!filtro.isEmpty()) {
+        if (!Objects.isNull(filtro) && !filtro.isEmpty()) {
             sql.append(" AND p.nome LIKE ?");
             paramValues.add("%" + filtro + "%");
         }
@@ -32,7 +33,8 @@ public class ReceitaRepositoryImpl implements CustomReceitaRepository {
                         rs.getBigDecimal("calorias"),
                         rs.getBigDecimal("carboidratos"),
                         rs.getBigDecimal("proteinas"),
-                        rs.getBigDecimal("gordura")
+                        rs.getBigDecimal("gordura"),
+                        rs.getInt("tipo_refeicao")
                 ));
     }
 

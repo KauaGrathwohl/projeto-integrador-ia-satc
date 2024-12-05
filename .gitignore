@@ -2,3 +2,4 @@
 target
 .idea/
 HELP.md
+src/main/resources/application.yml

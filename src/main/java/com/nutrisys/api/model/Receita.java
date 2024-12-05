@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -59,5 +58,4 @@ public class Receita {
 
     @Column(name = "DH_CRIACAO")
     private LocalDateTime dhCriacao;
-
 }
